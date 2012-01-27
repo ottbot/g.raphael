@@ -74,6 +74,8 @@
             chart = paper.set(),
             path = [];
 
+        gutter *= 1;
+
         for (var i = 0, ii = valuesy.length; i < ii; i++) {
             len = Math.max(len, valuesy[i].length);
         }
