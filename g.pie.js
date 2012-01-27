@@ -20,6 +20,7 @@
             total = 0,
             others = 0,
             cut = 9,
+            suppressSmall = opts.supressSmall;
             defcut = true;
 
         function sector(cx, cy, r, startAngle, endAngle, fill) {
@@ -60,22 +61,26 @@
                 return b.value - a.value;
             });
 
-            for (i = 0; i < len; i++) {
-                if (defcut && values[i] * 360 / total <= 1.5) {
-                    cut = i;
-                    defcut = false;
+
+            if (suppressSmall) {
+                for (i = 0; i < len; i++) {
+                    if (defcut && values[i] * 360 / total <= 1.5) {
+                        cut = i;
+                        defcut = false;
+                    }
+
+                    if (i > cut) {
+                        defcut = false;
+                        values[cut].value += values[i];
+                        values[cut].others = true;
+                        others = values[cut].value;
+                    }
                 }
 
-                if (i > cut) {
-                    defcut = false;
-                    values[cut].value += values[i];
-                    values[cut].others = true;
-                    others = values[cut].value;
-                }
+                len = Math.min(cut + 1, values.length);
+
+                others && values.splice(len) && (values[cut].others = true);
             }
-
-            len = Math.min(cut + 1, values.length);
-            others && values.splice(len) && (values[cut].others = true);
 
             for (i = 0; i < len; i++) {
                 var mangle = angle - 360 * values[i] / total / 2;
