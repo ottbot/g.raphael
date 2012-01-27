@@ -16,7 +16,7 @@
             series = paper.set(),
             order = [],
             len = values.length,
-            angle = 0,
+            angle = opts.angle || 0,
             total = 0,
             others = 0,
             cut = 9,
@@ -241,15 +241,15 @@
 
         return chart;
     };
-    
+
     //inheritance
     var F = function() {};
     F.prototype = Raphael.g;
     Piechart.prototype = new F;
-    
+
     //public
     Raphael.fn.piechart = function(cx, cy, r, values, opts) {
         return new Piechart(this, cx, cy, r, values, opts);
     }
-    
+
 })();
